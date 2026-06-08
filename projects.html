@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — Punit Jaiswal</title>
+    <meta name="description" content="All projects by Punit Jaiswal — Data Scientist & Software Engineer.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Projects page specific ── */
+        .projects-page-hero {
+            padding: 140px max(28px, 6%) 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .projects-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            transition: color 0.2s, gap 0.2s;
+        }
+        .projects-back-link:hover { color: var(--orange); gap: 10px; }
+        .projects-page-hero h1 {
+            font-size: clamp(2.4rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+        .projects-page-hero h1 em { color: var(--orange); font-style: italic; }
+        .projects-page-hero p {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-top: 18px;
+            max-width: 480px;
+            line-height: 1.75;
+        }
+        .projects-count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,87,34,0.09);
+            border: 1px solid rgba(255,87,34,0.22);
+            color: var(--orange);
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .all-projects-grid {
+            padding: 0 max(28px, 6%) var(--section-gap);
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        /* Full-detail project card (taller, more info) */
+        .project-card-full {
+            background: linear-gradient(135deg, #1a0a00 0%, #2d1400 100%);
+            border-radius: 24px;
+            padding: 44px 40px;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .project-card-full:hover { transform: scale(1.013); box-shadow: 0 32px 64px rgba(0,0,0,.35); }
+
+        .project-card-full .work-bg-art { position: absolute; inset: 0; pointer-events: none; }
+
+        .project-card-full .card-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 14px; height: 100%; }
+
+        .project-number {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .project-card-full .work-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--orange); color: #fff;
+            padding: 5px 13px; border-radius: 50px;
+            font-size: 0.72rem; font-weight: 700;
+            align-self: flex-start;
+        }
+
+        .project-card-full h3 {
+            font-size: clamp(1.5rem, 2.8vw, 2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .project-card-full .work-desc {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.75;
+        }
+
+        .project-card-full .exp-tags span {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.75);
+        }
+
+        .project-card-full .work-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-weight: 700; color: #fff; font-size: 0.88rem;
+            transition: color 0.2s, gap 0.2s;
+            margin-top: auto;
+        }
+        .project-card-full .work-link:hover { color: #ff9966; gap: 10px; }
+
+        /* More projects coming soon card */
+        .project-card-soon {
+            background: var(--card);
+            border: 2px dashed var(--border);
+            border-radius: 24px;
+            padding: 44px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            text-align: center;
+            min-height: 300px;
+            transition: border-color 0.3s;
+        }
+        .project-card-soon:hover { border-color: rgba(255,87,34,0.35); }
+        .project-card-soon .soon-icon {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            background: rgba(255,87,34,0.09);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; color: var(--orange);
+        }
+        .project-card-soon h3 { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+        .project-card-soon p { font-size: 0.85rem; color: var(--muted); max-width: 260px; line-height: 1.7; }
+
+        @media (max-width: 768px) {
+            .all-projects-grid { grid-template-columns: 1fr; }
+            .projects-page-hero { padding-top: 110px; }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-bar" class="scroll-bar"></div>
+
+    <!-- Noise texture overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Cursor -->
+    <div id="cursor-glow" class="cursor-glow"></div>
+    <div id="custom-cursor" class="custom-cursor"></div>
+    <div id="custom-cursor-follower" class="custom-cursor-follower"></div>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="top-header" id="top-header">
+        <div class="logo"><a href="index.html" style="text-decoration:none;"><span class="logo-text">Punit</span></a></div>
+
+        <nav class="pill-nav">
+            <a href="index.html#home" class="nav-link"><span class="nav-text" data-text="Home">Home</span><sup>01</sup></a>
+            <a href="index.html#about" class="nav-link"><span class="nav-text" data-text="About">About</span><sup>02</sup></a>
+            <a href="index.html#work-experience" class="nav-link"><span class="nav-text" data-text="Work">Work</span><sup>03</sup></a>
+            <a href="projects.html" class="nav-link active-page"><span class="nav-text" data-text="Projects">Projects</span><sup>04</sup></a>
+            <a href="index.html#expertise" class="nav-link"><span class="nav-text" data-text="Skills">Skills</span><sup>05</sup></a>
+            <a href="index.html#experience" class="nav-link"><span class="nav-text" data-text="Journey">Journey</span><sup>06</sup></a>
+        </nav>
+
+        <div class="header-actions">
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Dark Mode">
+                <i class="ri-moon-line"></i>
+            </button>
+            <a href="index.html#" id="connect-btn" class="connect-btn">
+                <span class="nav-text" data-text="Connect ↗">Connect ↗</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ===================== PAGE HERO ===================== -->
+    <div class="projects-page-hero">
+        <a href="index.html" class="projects-back-link stack-up">
+            <i class="ri-arrow-left-line"></i> Back to Home
+        </a>
+        <div class="stack-up" style="--stack-delay:0.08s">
+            <div class="projects-count-badge"><i class="ri-folder-3-line"></i> All Projects</div>
+            <h1>Things I've<br><em>Built.</em></h1>
+            <p>A collection of ML systems, GenAI products and engineering experiments — all open source.</p>
+        </div>
+    </div>
+
+    <!-- ===================== ALL PROJECTS GRID ===================== -->
+    <div class="all-projects-grid">
+
+        <!-- Project 1: System Threat Forecaster -->
+        <div class="project-card-full reveal stack-up" style="--stack-delay:0.05s">
+            <div class="work-bg-art">
+                <div class="art-orb o1" style="background:#ff5722;"></div>
+                <div class="art-orb o3" style="background:#ff9800;"></div>
+            </div>
+            <div class="card-content">
+                <span class="project-number">01</span>
+                <div class="work-badge"><i class="ri-shield-keyhole-line"></i> Machine Learning · Classification</div>
+                <h3>System Threat Forecaster</h3>
+                <p class="work-desc">ML pipeline predicting system security threats from telemetry. Ensembled XGBoost, LightGBM and Random Forest with deep EDA and hyperparameter search. LightGBM achieves the best accuracy across all models.</p>
+                <div class="exp-tags">
+                    <span>Python</span>
+                    <span>XGBoost</span>
+                    <span>Random Forest</span>
+                    <span>LightGBM</span>
+                    <span>Scikit-learn</span>
+                    <span>Pandas</span>
+                </div>
+                <a href="https://github.com/PunitJaiswal/System-Threat-Forecaster" target="_blank" class="work-link">View on GitHub <i class="ri-arrow-right-up-line"></i></a>
+            </div>
+        </div>
+
+        <!-- Project 2: HireHero -->
+        <div class="project-card-full reveal stack-up" style="--stack-delay:0.12s">
+            <div class="work-bg-art">
+                <div class="art-orb o1" style="background:#6b21a8;"></div>
+                <div class="art-orb o3" style="background:#ff5722;"></div>
+            </div>
+            <div class="card-content">
+                <span class="project-number">02</span>
+                <div class="work-badge"><i class="ri-robot-2-line"></i> GenAI · HR Platform</div>
+                <h3>HireHero</h3>
+                <p class="work-desc">Orchestrated Gemini + SpaCy to automate JD drafting and resume screening. Explainable match scores rank top candidates in under a few seconds, plus an AI mock-interview copilot with real-time feedback.</p>
+                <div class="exp-tags">
+                    <span>LangChain</span>
+                    <span>SpaCy</span>
+                    <span>Gemini API</span>
+                    <span>HuggingFace</span>
+                    <span>Python</span>
+                </div>
+                <a href="https://github.com/PunitJaiswal/System-Threat-Forecaster" target="_blank" class="work-link">View on GitHub <i class="ri-arrow-right-up-line"></i></a>
+            </div>
+        </div>
+
+        <!-- Coming soon card -->
+        <div class="project-card-soon reveal stack-up" style="--stack-delay:0.18s">
+            <div class="soon-icon"><i class="ri-time-line"></i></div>
+            <h3>More Coming Soon</h3>
+            <p>New projects are in the works. Stay tuned — something interesting is on the way.</p>
+        </div>
+
+    </div>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="bottom-footer">
+        <div class="footer-top stack-up">
+            <h2 class="footer-huge footer-huge-wide">
+                LET'S BUILD<br><em class="highlight-orange">SOMETHING</em><br>TOGETHER
+            </h2>
+            <div class="footer-email-display">
+                <i class="ri-mail-line"></i>
+                <a href="mailto:punitjaiswal360@gmail.com" class="footer-email-text">punitjaiswal360@gmail.com</a>
+            </div>
+            <a href="mailto:punitjaiswal360@gmail.com" class="big-contact-btn">
+                Get In Touch <i class="ri-arrow-right-up-line"></i>
+            </a>
+        </div>
+
+        <div class="footer-meta">
+            <div class="socials">
+                <a href="https://github.com/PunitJaiswal" target="_blank"><i class="ri-github-fill"></i> GitHub</a>
+                <a href="https://x.com/punitjaiswal_" target="_blank"><i class="ri-twitter-x-fill"></i> Twitter</a>
+                <a href="https://linkedin.com/in/thepunitjaiswal" target="_blank"><i class="ri-linkedin-fill"></i> LinkedIn</a>
+                <a href="mailto:punitjaiswal360@gmail.com"><i class="ri-mail-line"></i> Email</a>
+            </div>
+            <div class="footer-credit-row">
+                <div class="copyright">© 2026 Punit Jaiswal · Made with ❤️</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme
+        const body = document.body;
+        const themeBtn = document.getElementById('theme-toggle');
+        function applyTheme(t) {
+            const icon = themeBtn.querySelector('i');
+            if (t === 'dark') {
+                body.classList.remove('light-mode'); body.classList.add('dark-mode');
+                icon.className = 'ri-sun-line';
+            } else {
+                body.classList.remove('dark-mode'); body.classList.add('light-mode');
+                icon.className = 'ri-moon-line';
+            }
+        }
+        applyTheme(localStorage.getItem('theme') || 'light');
+        themeBtn.addEventListener('click', () => {
+            const next = body.classList.contains('dark-mode') ? 'light' : 'dark';
+            applyTheme(next); localStorage.setItem('theme', next);
+        });
+
+        // Scroll bar
+        const scrollBar = document.getElementById('scroll-bar');
+        window.addEventListener('scroll', () => {
+            const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            scrollBar.style.width = (pct * 100) + '%';
+        }, { passive: true });
+
+        // Header scroll class
+        const header = document.getElementById('top-header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        // Cursor
+        const cursor   = document.getElementById('custom-cursor');
+        const follower = document.getElementById('custom-cursor-follower');
+        const glow     = document.getElementById('cursor-glow');
+        let mx = 0, my = 0, fx = 0, fy = 0;
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+            glow.style.left = mx + 'px'; glow.style.top = my + 'px';
+        });
+        (function animateFollower() {
+            fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+            follower.style.left = fx + 'px'; follower.style.top = fy + 'px';
+            requestAnimationFrame(animateFollower);
+        })();
+        document.querySelectorAll('a, button, .project-card-full').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        // Reveal on scroll (stack-up)
+        const revealEls = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => observer.observe(el));
+
+        // Trigger stack-up on page load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.stack-up:not(.reveal)').forEach(el => {
+                el.classList.add('visible');
+            });
+        });
+
+        // Active nav highlight
+        document.querySelectorAll('.active-page').forEach(el => {
+            el.style.color = 'var(--orange)';
+        });
+    </script>
+</body>
+</html>
